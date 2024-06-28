@@ -39,7 +39,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-spring-boot-app:latest
+          tags: ajs0813@naver.com/my-spring-boot-app:latest
+
 
       - name: Logout from Docker Hub
         run: docker logout
