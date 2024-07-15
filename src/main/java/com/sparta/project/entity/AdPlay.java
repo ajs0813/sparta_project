@@ -8,37 +8,34 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "videoPlay")
+@Table(name = "ad_plays")
 @Getter
 @Setter
 @NoArgsConstructor
-public class VideoPlay {
+public class AdPlay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "video_id", nullable = false)
     private Video video;
 
-    @Column(name = "stop_time")
-    private int stopTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ad_id", nullable = false)
+    private Ad ad;
 
-    @Column(name = "last_played_time", nullable = false)
-    private int lastPlayedTime;
+    @Column(name = "ad_play_times", nullable = false)
+    private int adPlayTimes;
 
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 
-    public VideoPlay(User user, Video video, int lastPlayedTime) {
-        this.user = user;
+    public AdPlay(Video video, Ad ad, int adPlayTimes){
         this.video = video;
-        this.lastPlayedTime = lastPlayedTime;
+        this.ad = ad;
+        this.adPlayTimes = adPlayTimes;
         this.createdAt = new Date();
     }
 }

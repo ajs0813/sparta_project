@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Duration;
-
 @RestController
 @RequestMapping("/videos")
 public class VideoController {
@@ -37,8 +35,8 @@ public class VideoController {
     @PostMapping("/play")
     public ResponseEntity<String> playVideo(@RequestBody VideoPlayDto videoPlayDto){
         try{
-            Duration lastPlayedDuration = Duration.ofMillis((videoPlayDto.getLastPlayedTime()));
-            videoService.playVideo(videoPlayDto.getUserId(), videoPlayDto.getVideoId(), videoPlayDto.getStopTime(), lastPlayedDuration);
+            int lastPlayedTime = videoPlayDto.getLastPlayedTime();
+            videoService.playVideo(videoPlayDto.getUserId(), videoPlayDto.getVideoId(), videoPlayDto.getStopTime(), videoPlayDto.getLastPlayedTime());
             return ResponseEntity.ok("비디오가 재생되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비디오 재생 중 오류가 발생했습니다.");
