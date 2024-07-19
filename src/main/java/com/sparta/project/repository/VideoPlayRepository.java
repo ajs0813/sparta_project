@@ -5,9 +5,14 @@ import com.sparta.project.entity.Video;
 import com.sparta.project.entity.VideoPlay;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface VideoPlayRepository extends JpaRepository<VideoPlay, Long> {
 
     Optional<VideoPlay> findByUserAndVideo(User user, Video video);
+
+    List<VideoPlay> findByCreatedAtBetween(Date startOfDay, Date endOfDay);
+
 }

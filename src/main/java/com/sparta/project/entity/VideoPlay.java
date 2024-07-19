@@ -41,4 +41,5 @@ public class VideoPlay {
         this.lastPlayedTime = lastPlayedTime;
         this.createdAt = new Date();
     }
+    
 }

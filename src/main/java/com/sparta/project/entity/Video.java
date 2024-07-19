@@ -49,4 +49,7 @@ public class Video {
         this.videoTimes = videoTimes;
         this.createdAt = new Date();
     }
+
+    public Video(Long videoId) {
+    }
 }

@@ -63,20 +63,10 @@ public class VideoService {
 
         Video video = optionalVideo.get();
 
-        // 기존 VideoPlay 엔티티 조회
-        Optional<VideoPlay> optionalVideoPlay = videoPlayRepository.findByUserAndVideo(user, video);
-
-        if(optionalVideoPlay.isPresent()){
-            // 기존 기록이 있는 경우
-            VideoPlay videoPlay = optionalVideoPlay.get();
-            videoPlay.setStopTime(stopTime); // 중단 시간 업데이트
-            videoPlay.setLastPlayedTime(videoPlay.getLastPlayedTime() + lastPlayedTime); // 누적 시간 업데이트
-            videoPlayRepository.save(videoPlay);
-        } else {
-            VideoPlay videoPlay = new VideoPlay(user, video, lastPlayedTime);
-            videoPlay.setStopTime(stopTime); // 중단 시간 설정
-            videoPlayRepository.save(videoPlay);
-        }
+        // 새로운 VideoPlay 엔티티 생성 및 저장
+        VideoPlay videoPlay = new VideoPlay(user, video, lastPlayedTime);
+        videoPlay.setStopTime(stopTime);
+        videoPlayRepository.save(videoPlay);
 
         // 광고 재생 여부 확인 및 처리
         List<Ad> ads = adRepository.findByVideo(video);
@@ -88,18 +78,9 @@ public class VideoService {
                 // 광고 시작 시간 이후 재생된 경우
                 int adPlayCount = (lastPlayedTime - adStart) / adTimes + 1; // 광고 재생 횟수 계산
 
-                // 기존 AdPlay 엔티티 조회
-                Optional<AdPlay> optionalAdPlay = adPlayRepository.findByVideoAndAd(video, ad);
-
-                if(optionalAdPlay.isPresent()){
-                    // 기존 기록이 있는 경우
-                    AdPlay adPlay = optionalAdPlay.get();
-                    adPlay.setAdPlayTimes(adPlay.getAdPlayTimes() + adPlayCount); // 총 재생 시간 업데이트
-                    adPlayRepository.save(adPlay);
-                } else {
-                    AdPlay adPlay = new AdPlay(video, ad, adPlayCount);
-                    adPlayRepository.save(adPlay);
-                }
+                // 새로운 AdPlay 엔티티 생성 및 저장
+                AdPlay adPlay = new AdPlay(video, ad, adPlayCount);
+                adPlayRepository.save(adPlay);
 
                 // 광고 조회수 증가
                 ad.setAdViews(ad.getAdViews() + 1);
